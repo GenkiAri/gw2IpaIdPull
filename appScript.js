@@ -28,7 +28,7 @@
             var divUser = document.createElement("div");
             divUser.setAttribute("class","itemData");
             
-            var itemPrice = (Math.floor(toUser.vendor_value / 10000)  + " gold " + ((toUser.vendor_value / 100) - Math.floor(toUser.vendor_value / 100) )  + " silver " + (toUser.vendor_value - (Math.floor(toUser.vendor_value / 100) * 100)  + " copper "));
+            var itemPrice = (Math.floor(toUser.vendor_value / 10000)  + " gold " +  (Math.floor(toUser.vendor_value / 100) - (Math.floor(toUser.vendor_value / 10000))*100) + " silver " + (toUser.vendor_value - (Math.floor(toUser.vendor_value / 100) * 100)  + " copper "));
 
             divUser.innerHTML = ("Name:" + "<br>" + toUser.name + "<br>" + "Rarity:" + "<br>" + toUser.rarity + "<br>" + "Vendor value:" + "<br>" + itemPrice)
 
