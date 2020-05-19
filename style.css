@@ -21,7 +21,7 @@ body {
     margin-top: 10px;
 }
 
-#mainArea > button, input {
+#mainArea > input {
     margin: 5px 5px;
     padding: 5px 5px;
     width: 90vw;
@@ -32,6 +32,23 @@ body {
     /*Text*/
     font-size: 1.5rem;
     text-align: center;
+}
+
+#mainArea > button {
+    margin: 5px 5px;
+    padding: 5px 5px;
+    width: 90vw;
+    height: auto;
+    border: 0px;
+    background: #67c71aaa;
+    border-radius: 4px;
+    /*Text*/
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+#mainArea > button:hover{
+    background: #67c71aff;
 }
 
 .itemData {
