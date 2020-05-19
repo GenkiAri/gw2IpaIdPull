@@ -27,7 +27,10 @@
 
             var divUser = document.createElement("div");
             divUser.setAttribute("class","itemData");
-            divUser.innerHTML = ("Name:" + "<br>" + toUser.name + "<br>" + "Rarity:" + "<br>" + toUser.rarity + "<br>" + "Vendor value:" + "<br>" + toUser.vendor_value)
+            
+            var itemPrice = (Math.floor(toUser.vendor_value / 10000)  + " gold " + Math.floor(toUser.vendor_value / 100)  + " silver " + (toUser.vendor_value - (Math.floor(toUser.vendor_value / 100) * 100)  + " copper "));
+
+            divUser.innerHTML = ("Name:" + "<br>" + toUser.name + "<br>" + "Rarity:" + "<br>" + toUser.rarity + "<br>" + "Vendor value:" + "<br>" + itemPrice)
 
             var elem = document.getElementById("result");
             elem.parentNode.insertBefore(divUser, elem.previousSibling);
