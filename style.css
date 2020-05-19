@@ -12,7 +12,9 @@ body {
     justify-content: center;
     height: 90vh;
     width: auto;
+    background: rgba(60, 60, 60, 0.3);
 }
+
 
 #mainArea {
     display: flex;
@@ -29,7 +31,7 @@ body {
     width: 300px;
     height: auto;
     border: 0px;
-    background: #67c7baaa;
+    background: #2390acaa;
     border-radius: 4px;
     /*Text*/
     font-size: 1.5rem;
@@ -42,7 +44,7 @@ body {
     width: 300px;
     height: auto;
     border: 0px;
-    background: #67c71aaa;
+    background: #519b15aa;
     border-radius: 4px;
     /*Text*/
     font-size: 1.5rem;
@@ -59,7 +61,7 @@ body {
     width: 300px;
     height: auto;
     border: 0px;
-    background: #67c7baaa;
+    background: #d8e438aa;
     border-radius: 4px;
     /*Text*/
     font-size: 1.5rem;
