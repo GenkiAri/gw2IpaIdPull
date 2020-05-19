@@ -17,14 +17,16 @@ body {
 #mainArea {
     display: flex;
     flex-flow: column;
-    height: 90wh;
+    justify-content: top;
+    align-items: center;
+    height: 90vw;
     margin-top: 10px;
 }
 
 #mainArea > input {
     margin: 5px 5px;
     padding: 5px 5px;
-    width: 90vw;
+    width: 300px;
     height: auto;
     border: 0px;
     background: #67c7baaa;
@@ -37,7 +39,7 @@ body {
 #mainArea > button {
     margin: 5px 5px;
     padding: 5px 5px;
-    width: 90vw;
+    width: 300px;
     height: auto;
     border: 0px;
     background: #67c71aaa;
@@ -54,7 +56,7 @@ body {
 .itemData {
     margin: 5px 5px;
     padding: 5px 5px;
-    width: 90vw;
+    width: 300px;
     height: auto;
     border: 0px;
     background: #67c7baaa;
