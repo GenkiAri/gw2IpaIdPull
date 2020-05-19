@@ -1,0 +1,48 @@
+*, *::before, *::after{
+    box-sizing: border-box;
+    font-family: sans-serif;
+    font-weight: normal;
+    margin: 0px 0px;
+    padding: 0px 0px;
+}
+
+body {
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    height: 90vh;
+    width: auto;
+}
+
+#mainArea {
+    display: flex;
+    flex-flow: column;
+    height: 90wh;
+    margin-top: 10px;
+}
+
+#mainArea > button, input {
+    margin: 5px 5px;
+    padding: 5px 5px;
+    width: 90vw;
+    height: auto;
+    border: 0px;
+    background: #67c7baaa;
+    border-radius: 4px;
+    /*Text*/
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.itemData {
+    margin: 5px 5px;
+    padding: 5px 5px;
+    width: 90vw;
+    height: auto;
+    border: 0px;
+    background: #67c7baaa;
+    border-radius: 4px;
+    /*Text*/
+    font-size: 1.5rem;
+    text-align: center;
+}
