@@ -22,40 +22,47 @@
 
     }
 
-
+    var toUser;
+    var itemPrice;
+    
         function processData() {
             if (httpRequest.readyState === XMLHttpRequest.DONE) {
                 //JSON to Object conversion
                 itemInfo = httpRequest.response;
-                var toUser = JSON.parse(itemInfo);
-                var itemPrice = calculateItemPrice();
-
-                calculateItemPrice()
-                postDataToUser()
-
-                function calculateItemPrice() {
-                    //Math for calculating gold, silver, copper.
-                    var itemPrice = (Math.floor(toUser.vendor_value / 10000) + " gold " + (Math.floor(toUser.vendor_value / 100) - (Math.floor(toUser.vendor_value / 10000)) * 100) + " silver " + (toUser.vendor_value - (Math.floor(toUser.vendor_value / 100) * 100) + " copper "));
-                    return itemPrice;
-                }
-
+                toUser = JSON.parse(itemInfo);
                 
-                function postDataToUser() {
-                    //Creating a div element for user to see
-                    var divUser = document.createElement("div");
-                    divUser.setAttribute("class", "itemData");
-                    divUser.innerHTML = ("Name:" + "<br>" + toUser.name + "<br>" + "Rarity:" + "<br>" + toUser.rarity + "<br>" + "Vendor value:" + "<br>" + itemPrice)
-                    var elem = document.getElementById("result");
-                    elem.parentNode.insertBefore(divUser, elem.previousSibling);
-                }
-                
-
                 if (httpRequest.status === 200) {
+                    calculateItemPrice();
+                    displayData()
+
+                    
                 } else {
                     alert('There was a problem with a request');
                 }
+                return toUser;
             }
         }
+        function calculateItemPrice() {
+            //Math for calculating gold, silver, copper.
+            itemPrice = (Math.floor(toUser.vendor_value / 10000) + " gold " + (Math.floor(toUser.vendor_value / 100) - (Math.floor(toUser.vendor_value / 10000)) * 100) + " silver " + (toUser.vendor_value - (Math.floor(toUser.vendor_value / 100) * 100) + " copper "));
+            return itemPrice;
+        }
+
+        
+        function displayData() {
+            //Creating a div element for user to see
+            var divUser = document.createElement("div");
+            divUser.setAttribute("class", "itemData");
+            divUser.innerHTML = ("Name:" + "<br>" + toUser.name + "<br>" + "Rarity:" + "<br>" + toUser.rarity + "<br>" + "Vendor value:" + "<br>" + itemPrice)
+            var elem = document.getElementById("result");
+            elem.parentNode.insertBefore(divUser, elem.previousSibling);
+        }
+
+
+
+
+
+        
 }
 )();
 
