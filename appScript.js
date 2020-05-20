@@ -16,50 +16,46 @@
             alert('Giving up :( Cannot create an XMLHTTP instance');
             return false;
         }
-        httpRequest.onreadystatechange = dataProcessing;
+        httpRequest.onreadystatechange = processData;
         httpRequest.open('GET', 'https://api.guildwars2.com/v2/items/' + itemIdNumber);
         httpRequest.send('');
 
     }
 
 
-    function dataProcessing() {
-        if (httpRequest.readyState === XMLHttpRequest.DONE) {
-            //JSON to Object conversion
-            itemInfo = httpRequest.response;
-            var toUser = JSON.parse(itemInfo);
+        function processData() {
+            if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                //JSON to Object conversion
+                itemInfo = httpRequest.response;
+                var toUser = JSON.parse(itemInfo);
+                var itemPrice = calculateItemPrice();
 
-            extractDataFromObject();
+                calculateItemPrice()
+                postDataToUser()
 
-            function extractDataFromObject() {
-
-                calculatingItemPrice()
-
-                function calculatingItemPrice() {
+                function calculateItemPrice() {
                     //Math for calculating gold, silver, copper.
                     var itemPrice = (Math.floor(toUser.vendor_value / 10000) + " gold " + (Math.floor(toUser.vendor_value / 100) - (Math.floor(toUser.vendor_value / 10000)) * 100) + " silver " + (toUser.vendor_value - (Math.floor(toUser.vendor_value / 100) * 100) + " copper "));
+                    return itemPrice;
+                }
 
-                    postingShowingDataToUser()
+                
+                function postDataToUser() {
+                    //Creating a div element for user to see
+                    var divUser = document.createElement("div");
+                    divUser.setAttribute("class", "itemData");
+                    divUser.innerHTML = ("Name:" + "<br>" + toUser.name + "<br>" + "Rarity:" + "<br>" + toUser.rarity + "<br>" + "Vendor value:" + "<br>" + itemPrice)
+                    var elem = document.getElementById("result");
+                    elem.parentNode.insertBefore(divUser, elem.previousSibling);
+                }
+                
 
-                    function postingShowingDataToUser() {
-                        //Creating a div element for user to see
-                        var divUser = document.createElement("div");
-                        divUser.setAttribute("class", "itemData");
-                        divUser.innerHTML = ("Name:" + "<br>" + toUser.name + "<br>" + "Rarity:" + "<br>" + toUser.rarity + "<br>" + "Vendor value:" + "<br>" + itemPrice)
-
-                        var elem = document.getElementById("result");
-                        elem.parentNode.insertBefore(divUser, elem.previousSibling);
-                    }
+                if (httpRequest.status === 200) {
+                } else {
+                    alert('There was a problem with a request');
                 }
             }
-
-
-            if (httpRequest.status === 200) {
-            } else {
-                alert('There was a problem with a request');
-            }
         }
-    }
 }
 )();
 
