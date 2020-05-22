@@ -36,46 +36,75 @@
         }
     }
 
-    var itemIdNumber;
-    var i = 0;
+    var itemIdNumber = 6;
+    var itemIndex = 0;
     
-    document.getElementById('nextItem').addEventListener('click', nextItem);
-    document.getElementById('previousItem').addEventListener('click', previousItem);
+    document.getElementById('nextItem').addEventListener('click', () => {
+        nextItem();
+        makeRequest();
+    });
+    document.getElementById('previousItem').addEventListener('click', () => {
+        previousItem();
+        makeRequest();
+    });
 
 
     function nextItem(){
-        i = i + 1;
-        itemIdNumber = itemList[i];
+        valueToIndex();
+        getUserInput();
 
-        console.log(itemIdNumber);
+        itemIndex = itemIndex + 1;
+        itemIdNumber = itemList[itemIndex];
+        changeInputValue();
+        // console.log(itemIdNumber);
 
         return itemIdNumber;
         
     }
 
     function previousItem(){
-        i = i - 1;
-        itemIdNumber = itemList[i];
+        valueToIndex();
+        getUserInput();
+        itemIndex = itemIndex - 1;
+        itemIdNumber = itemList[itemIndex];
 
-        console.log(itemIdNumber);
-
+        // console.log(itemIdNumber);
+        changeInputValue();
         return itemIdNumber;
         
     }
+
+    function valueToIndex(){
+        itemIndex = itemList.indexOf(itemIdNumber);
+        // console.log(itemIndex);
+        return itemIndex;
+    } 
 
 
     //Get item info by ID
 
     var httpRequest;
-    document.getElementById('ajaxButton').addEventListener('click', makeRequest);
+    document.getElementById('ajaxButton').addEventListener('click', () => {
+        getUserInput();
+        makeRequest();
+    });
+
+    function getUserInput(){
+          //User input item ID number
+
+        itemIdNumber = parseInt(document.getElementById('itemNumber').value);
+        // console.log(itemIdNumber)
+        // changeInputValue();
+        return itemIdNumber;
+    };
+
+    function changeInputValue(){
+        document.getElementById('itemNumber').value = itemList[itemIndex];
+    }
 
     
 
     function makeRequest() {
-        //User input item ID number
-        
-        itemIdNumber = parseInt(document.getElementById('itemNumber').value);
-
         //Request to a GW2 API
         httpRequest = new XMLHttpRequest();
 
