@@ -1,12 +1,79 @@
 
 
 (function () {
+    //Item info with next & back buttons
+    var httpRequestItemList
+    //delete button after
+    // document.getElementById('nextItem').addEventListener('click', makeRequestForItemList);
+
+    function makeRequestForItemList(){
+        httpRequestItemList = new XMLHttpRequest();
+
+        if (!httpRequestItemList) {
+            alert('Giving up :( Cannot create an XMLHTTP instance');
+            return false;
+        }
+        httpRequestItemList.onreadystatechange = processItemListData;
+        httpRequestItemList.open('GET', 'https://api.guildwars2.com/v2/items');
+        httpRequestItemList.send('');
+
+    }
+    makeRequestForItemList()
+    var itemList
+
+    function processItemListData() {
+        if (httpRequestItemList.readyState === XMLHttpRequest.DONE) {
+            //JSON to Object conversion
+            itemList = httpRequestItemList.response;
+            itemList = JSON.parse(itemList);
+            
+            if (httpRequestItemList.status === 200) {
+                
+            } else {
+                alert('There was a problem with a request');
+            }
+            return itemList;
+        }
+    }
+
+    var itemIdNumber;
+    var i = 0;
+    
+    document.getElementById('nextItem').addEventListener('click', nextItem);
+    document.getElementById('previousItem').addEventListener('click', previousItem);
+
+
+    function nextItem(){
+        i = i + 1;
+        itemIdNumber = itemList[i];
+
+        console.log(itemIdNumber);
+
+        return itemIdNumber;
+        
+    }
+
+    function previousItem(){
+        i = i - 1;
+        itemIdNumber = itemList[i];
+
+        console.log(itemIdNumber);
+
+        return itemIdNumber;
+        
+    }
+
+
+    //Get item info by ID
+
     var httpRequest;
     document.getElementById('ajaxButton').addEventListener('click', makeRequest);
 
+    
+
     function makeRequest() {
         //User input item ID number
-        var itemIdNumber
+        
         itemIdNumber = parseInt(document.getElementById('itemNumber').value);
 
         //Request to a GW2 API
