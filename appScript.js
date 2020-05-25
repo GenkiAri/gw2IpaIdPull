@@ -187,6 +187,7 @@
                         calculateItemBuyPrice();
                         calculateItemSellsPrice();
                         calculateTpBuyToSellDif();
+                        tpTaxFeeIfSoldBySellsPrice();
                         displayTpData()
     
                         
@@ -218,13 +219,21 @@
                 return tpPriceDif;
             }
 
+            var tpTaxFee
+            function tpTaxFeeIfSoldBySellsPrice() {
+                tpTaxFee = Math.round(tpItemInfo.sells.unit_price * 0.15);
+                tpTaxFee = (Math.floor(tpTaxFee / 10000) + " gold " + (Math.floor(tpTaxFee / 100) - (Math.floor(tpTaxFee / 10000)) * 100) + " silver " + (tpTaxFee - (Math.floor(tpTaxFee / 100) * 100) + " copper "));
+                return tpTaxFee;
+
+            }
+
 
 
     
             
             function displayTpData() {
                 //Creating a div element for user to see
-                document.getElementById("itemTpData").innerHTML = ("Buys: "+ tpItemInfo.buys.quantity + " Items" + "<br>" + itemBuyPrice + "Sells: " + tpItemInfo.sells.quantity + " Items" + "<br>" + itemSellsPrice + "<br>" + "Price difference: " +"<br>" + tpPriceDif);
+                document.getElementById("itemTpData").innerHTML = ("Buys: "+ tpItemInfo.buys.quantity + " Items" + "<br>" + itemBuyPrice + "Sells: " + tpItemInfo.sells.quantity + " Items" + "<br>" + itemSellsPrice + "<br>" + "Price difference: " +"<br>" + tpPriceDif + "<br>" + "Tax fee if sold by sell price:" + "<br>" + tpTaxFee);
                 processItemListData()
             }
     
