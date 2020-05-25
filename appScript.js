@@ -1,10 +1,8 @@
 
 
 (function () {
-    //Item info with next & back buttons
+    
     var httpRequestItemList
-    //delete button after
-    // document.getElementById('nextItem').addEventListener('click', makeRequestForItemList);
 
     function makeRequestForItemList(){
         httpRequestItemList = new XMLHttpRequest();
@@ -36,7 +34,7 @@
         }
     }
 
-    var itemIdNumber = 6;
+    var itemIdNumber = itemIndex;
     var itemIndex = 0;
     
     document.getElementById('nextItem').addEventListener('click', () => {
@@ -91,10 +89,8 @@
 
     function getUserInput(){
           //User input item ID number
-
         itemIdNumber = parseInt(document.getElementById('itemNumber').value);
         // console.log(itemIdNumber)
-        // changeInputValue();
         return itemIdNumber;
     };
 
@@ -105,7 +101,7 @@
     
 
     function makeRequest() {
-        //Request to a GW2 API
+        //Request to a GW2 API with item Id number
         httpRequest = new XMLHttpRequest();
 
         if (!httpRequest) {
@@ -126,6 +122,7 @@
                 //JSON to Object conversion
                 itemInfo = httpRequest.response;
                 toUser = JSON.parse(itemInfo);
+                console.log(itemInfo);
                 
                 if (httpRequest.status === 200) {
                     calculateItemPrice();
@@ -147,15 +144,15 @@
         
         function displayData() {
             //Creating a div element for user to see
-            var divUser = document.createElement("div");
-            divUser.setAttribute("class", "itemData");
-            divUser.innerHTML = ("Name:" + "<br>" + toUser.name + "<br>" + "Rarity:" + "<br>" + toUser.rarity + "<br>" + "Vendor value:" + "<br>" + itemPrice)
-            var elem = document.getElementById("result");
-            elem.parentNode.insertBefore(divUser, elem.previousSibling);
+            document.getElementById("itemData").innerHTML = ("Name:" + "<br>" + toUser.name + "<br>" + "Rarity:" + "<br>" + toUser.rarity + "<br>" + "Vendor value:" + "<br>" + itemPrice);
+
+
+            // var divUser = document.createElement("div");
+            // divUser.setAttribute("class", "itemData");
+            // divUser.innerHTML = ("Name:" + "<br>" + toUser.name + "<br>" + "Rarity:" + "<br>" + toUser.rarity + "<br>" + "Vendor value:" + "<br>" + itemPrice)
+            // var elem = document.getElementById("result");
+            // elem.parentNode.insertBefore(divUser, elem.previousSibling);
         }
-
-
-
 
 
         
