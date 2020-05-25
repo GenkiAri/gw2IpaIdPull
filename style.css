@@ -55,7 +55,7 @@ body {
     background: #67c71aff;
 }
 
-#itemData {
+.item {
     margin: 5px 5px;
     padding: 5px 5px;
     width: 300px;

@@ -12,7 +12,7 @@
             return false;
         }
         httpRequestItemList.onreadystatechange = processItemListData;
-        httpRequestItemList.open('GET', 'https://api.guildwars2.com/v2/items');
+        httpRequestItemList.open('GET', 'https://api.guildwars2.com/v2/commerce/prices');
         httpRequestItemList.send('');
 
     }
@@ -33,16 +33,18 @@
             return itemList;
         }
     }
-
+    
     var itemIdNumber = itemIndex;
     var itemIndex = 0;
     
     document.getElementById('nextItem').addEventListener('click', () => {
         nextItem();
+        makeRequestForTp();
         makeRequest();
     });
     document.getElementById('previousItem').addEventListener('click', () => {
         previousItem();
+        makeRequestForTp();
         makeRequest();
     });
 
@@ -84,6 +86,7 @@
     var httpRequest;
     document.getElementById('ajaxButton').addEventListener('click', () => {
         getUserInput();
+        makeRequestForTp();
         makeRequest();
     });
 
@@ -111,6 +114,7 @@
         httpRequest.onreadystatechange = processData;
         httpRequest.open('GET', 'https://api.guildwars2.com/v2/items/' + itemIdNumber);
         httpRequest.send('');
+        
 
     }
 
@@ -122,7 +126,7 @@
                 //JSON to Object conversion
                 itemInfo = httpRequest.response;
                 toUser = JSON.parse(itemInfo);
-                console.log(itemInfo);
+                // console.log(itemInfo);
                 
                 if (httpRequest.status === 200) {
                     calculateItemPrice();
@@ -145,16 +149,85 @@
         function displayData() {
             //Creating a div element for user to see
             document.getElementById("itemData").innerHTML = ("Name:" + "<br>" + toUser.name + "<br>" + "Rarity:" + "<br>" + toUser.rarity + "<br>" + "Vendor value:" + "<br>" + itemPrice);
+            processItemListData()
 
 
-            // var divUser = document.createElement("div");
-            // divUser.setAttribute("class", "itemData");
-            // divUser.innerHTML = ("Name:" + "<br>" + toUser.name + "<br>" + "Rarity:" + "<br>" + toUser.rarity + "<br>" + "Vendor value:" + "<br>" + itemPrice)
-            // var elem = document.getElementById("result");
-            // elem.parentNode.insertBefore(divUser, elem.previousSibling);
         }
 
 
+        //Trading post item info
+
+        function makeRequestForTp() {
+            //Request to a GW2 API with item Id number
+            httpRequestForTp = new XMLHttpRequest();
+    
+            if (!httpRequestForTp) {
+                alert('Giving up :( Cannot create an XMLHTTP instance');
+                return false;
+            }
+            httpRequestForTp.onreadystatechange = processTpData;
+            httpRequestForTp.open('GET', 'https://api.guildwars2.com/v2/commerce/prices/' + itemIdNumber);
+            httpRequestForTp.send('');
+            
+    
+        }
+
+        var tpItemInfo;
+        var itemBuyPrice;
+        var itemSellsPrice;
+        
+            function processTpData() {
+                if (httpRequestForTp.readyState === XMLHttpRequest.DONE) {
+                    //JSON to Object conversion
+                    tpItemInfo = httpRequestForTp.response;
+                    tpItemInfo = JSON.parse(tpItemInfo);
+                    // console.log(tpItemInfo);
+                    
+                    if (httpRequestForTp.status === 200) {
+                        calculateItemBuyPrice();
+                        calculateItemSellsPrice();
+                        calculateTpBuyToSellDif();
+                        displayTpData()
+    
+                        
+                    } else {
+                        alert('There was a problem with a request');
+                    }
+                    return tpItemInfo;
+                }
+            }
+            function calculateItemBuyPrice() {
+                //Math for calculating gold, silver, copper.
+                itemBuyPrice = (Math.floor(tpItemInfo.buys.unit_price / 10000) + " gold " + (Math.floor(tpItemInfo.buys.unit_price / 100) - (Math.floor(tpItemInfo.buys.unit_price / 10000)) * 100) + " silver " + (tpItemInfo.buys.unit_price - (Math.floor(tpItemInfo.buys.unit_price / 100) * 100) + " copper "));
+                return itemBuyPrice;
+            }
+
+            function calculateItemSellsPrice() {
+                //Math for calculating gold, silver, copper.
+                itemSellsPrice = (Math.floor(tpItemInfo.sells.unit_price / 10000) + " gold " + (Math.floor(tpItemInfo.sells.unit_price / 100) - (Math.floor(tpItemInfo.sells.unit_price / 10000)) * 100) + " silver " + (tpItemInfo.sells.unit_price - (Math.floor(tpItemInfo.sells.unit_price / 100) * 100) + " copper "));
+                return itemSellsPrice;
+            }
+
+            var tpPriceDif
+            function calculateTpBuyToSellDif() {
+                tpPriceDif = (tpItemInfo.sells.unit_price - tpItemInfo.buys.unit_price);
+                tpPriceDif = (Math.floor(tpPriceDif / 10000) + " gold " + (Math.floor(tpPriceDif / 100) - (Math.floor(tpPriceDif / 10000)) * 100) + " silver " + (tpPriceDif - (Math.floor(tpPriceDif / 100) * 100) + " copper "));
+
+
+                // console.log(tpPriceDif);
+                return tpPriceDif;
+            }
+
+
+
+    
+            
+            function displayTpData() {
+                //Creating a div element for user to see
+                document.getElementById("itemTpData").innerHTML = ("Buys: "+ tpItemInfo.buys.quantity + " Items" + "<br>" + itemBuyPrice + "Sells: " + tpItemInfo.sells.quantity + " Items" + "<br>" + itemSellsPrice + "<br>" + "Price difference: " +"<br>" + tpPriceDif);
+                processItemListData()
+            }
+    
         
 }
 )();
